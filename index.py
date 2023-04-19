@@ -11,16 +11,23 @@ cluster = db.users
 
 @app.route("/")
 def home():
-    #print(client.Authentication.users.find_one({"_id": "123456789"}))
-    return "Checking Vercel"
+    print(client.Authentication.users.find_one({"_id": "123456789"}))
+    return client.Authentication.users.find_one({"_id": "123456789"})
 
-@app.route("/getuser/", methods=['GET', 'POST'])
+@app.route("/check")
+def check():
+    return "Checking Vercel 2"
+
+# https://flask-mongo-backend-ar230500-famas.vercel.app/getuser?email=asadtariq1999%40gmail.com&password=123456789
+
+@app.route("/getuser/", methods=['GET'])
 def get_user():
     result = request.args.to_dict()
     email = result['email']
     password = result['password']
     user =  cluster.find_one({"email": email, "password": password})
-    return user['_id']
+    return user["_id"]
+
 
 @app.route("/adduser/", methods=['GET', 'POST'])
 def add_user():
@@ -28,7 +35,4 @@ def add_user():
     cluster.insert_one(user)
     return "User Added"
 
-# if __name__ == '__main__':
-#     #port = int(os.environ.get('PORT', 5000))
-#     print(os.getcwd())
-#     #app.run(host='0.0.0.0', port=port)
+__name__ == "__main__" and app.run()
