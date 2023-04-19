@@ -12,7 +12,7 @@ cluster = db.users
 @app.route("/")
 def home():
     #print(client.Authentication.users.find_one({"_id": "123456789"}))
-    return "Hello, Flask!"
+    return "Checking Vercel"
 
 @app.route("/getuser/", methods=['GET', 'POST'])
 def get_user():
