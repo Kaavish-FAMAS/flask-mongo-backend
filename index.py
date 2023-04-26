@@ -22,11 +22,12 @@ def check():
 
 @app.route("/getuser/", methods=['GET'])
 def get_user():
+    print(request.args.to_dict())
     result = request.args.to_dict()
     email = result['email']
     password = result['password']
     user =  cluster.find_one({"email": email, "password": password})
-    return user["_id"]
+    return "done"
 
 
 @app.route("/adduser/", methods=['GET', 'POST'])
