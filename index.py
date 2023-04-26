@@ -27,7 +27,9 @@ def get_user():
     email = result['email']
     password = result['password']
     user =  cluster.find_one({"email": email, "password": password})
-    return "done"
+    if user:
+        return "exists"
+    return "does not exist"
 
 
 @app.route("/adduser/", methods=['GET', 'POST'])
