@@ -42,7 +42,7 @@ def add_user():
     users_cluster.insert_one(user)
     return "User Added"
 
-@app.route("/addrelayout", methods=['GET', 'POST'])
+@app.route("/addrelayout/", methods=['GET', 'POST'])
 def add_relayout():
     relay = request.args.to_dict()
     relay_cluster.insert_one(relay)
