@@ -1,11 +1,10 @@
 from flask import Flask, request
-from pymongo import MongoClient
-
-
+from bson import json_util
+import pymongo
 
 app = Flask(__name__)
 uri = "mongodb+srv://asadtariq1999:virtyou@testingvirtyou.ner4fbz.mongodb.net/?retryWrites=true&w=majority"
-client = MongoClient(uri)
+client = pymongo.MongoClient(uri)
 
 users_db = client.Authentication
 users_cluster = users_db.users
@@ -13,14 +12,13 @@ users_cluster = users_db.users
 relay_db = client.sensors
 relay_cluster = relay_db.relay
 
+sensor_db = client.sensors
+sensor_cluster = sensor_db.readings
+
 @app.route("/")
 def home():
     print(users_cluster.find_one({"_id": "123456789"}))
     return "Yo wasssup?"
-
-@app.route("/check")
-def check():
-    return "Checking Vercel 2"
 
 # https://flask-mongo-backend-ar230500-famas.vercel.app/getuser?email=asadtariq1999%40gmail.com&password=123456789
 
@@ -35,7 +33,6 @@ def get_user():
         return "exists"
     return "does not exist"
 
-
 @app.route("/adduser/", methods=['GET', 'POST'])
 def add_user():
     user = request.args.to_dict()
@@ -48,5 +45,9 @@ def add_relayout():
     relay_cluster.insert_one(relay)
     return "Relay Outputs Configured"
 
+@app.route("/getsensor/", methods=['GET'])
+def get_sensor():
+    readings = sensor_cluster.find({}).sort('_id', pymongo.DESCENDING)
+    return json_util.dumps(readings)
 
 __name__ == "__main__" and app.run()
