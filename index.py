@@ -30,7 +30,7 @@ def get_user():
     password = result['password']
     user =  users_cluster.find_one({"email": email, "password": password})
     if user:
-        return "exists"
+        return user['role']
     return "does not exist"
 
 @app.route("/adduser/", methods=['GET', 'POST'])
