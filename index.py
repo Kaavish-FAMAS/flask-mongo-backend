@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from bson import json_util
 import pymongo
 
@@ -17,8 +17,7 @@ sensor_cluster = sensor_db.readings
 
 @app.route("/")
 def home():
-    print(users_cluster.find_one({"_id": "123456789"}))
-    return "Yo wasssup?"
+    return render_template('home.html')
 
 # https://flask-mongo-backend-ar230500-famas.vercel.app/getuser?email=asadtariq1999%40gmail.com&password=123456789
 
